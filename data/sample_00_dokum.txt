@@ -1,0 +1,147 @@
+
+==============================================================================
+KAYIT DOKUMU - kronolojik  (t = kayit basindan saniye, 400 bps, kayit 151.1s)
+==============================================================================
+ #    t_bas    t_son  tur  tip  boyut  UTC   dogrulama
+------------------------------------------------------------------------------
+ 0     1.8s    12.2s  DUZ  M     512B  N/A   CRC OK
+ 1    13.2s    26.2s  FEC  M     256B  N/A   RS OK (0 duzeltme)  <- onceki M blogunun ilk yarisi (birebir ayni)
+ 2    27.2s    37.6s  DUZ  N     512B  N/A   CRC OK
+ 3    38.6s    51.6s  FEC  N     256B  N/A   RS OK (0 duzeltme)  <- onceki N blogunun ilk yarisi (birebir ayni)
+ 4    52.6s    63.0s  DUZ  K     512B  N/A   CRC OK
+ 5    64.0s    77.0s  FEC  K     256B  N/A   RS OK (0 duzeltme)  <- onceki K blogunun ilk yarisi (birebir ayni)
+ 6    78.0s    88.4s  DUZ  L     512B  N/A   CRC OK
+ 7    89.4s   102.4s  FEC  L     256B  N/A   RS OK (0 duzeltme)  <- onceki L blogunun ilk yarisi (birebir ayni)
+ 8   103.4s   113.8s  DUZ  M     512B  N/A   CRC OK
+ 9   114.8s   127.8s  FEC  M     256B  N/A   RS OK (0 duzeltme)  <- onceki M blogunun ilk yarisi (birebir ayni)
+10   128.8s   139.2s  DUZ  N     512B  N/A   CRC OK
+    [!] t=139.2s-151.1s arasi (12.0s) okunamadi - yarim/bozuk blok ya da kayit siniri
+------------------------------------------------------------------------------
+toplam: 6 duz + 5 FEC blok, 1 okunamayan aralik. Yayin duzeni: duz -> FEC -> duz -> FEC ...
+
+==============================================================================
+[0] t=1.8s  DUZ  tip='M'  UTC: N/A  CRC OK
+------------------------------------------------------------------------------
+  M HI de Qatar-OSCAR 100 (DK0SB)                                 
+  2020-02-14: Celebrating 1 year of QO-100                        
+  New bandplan with extended transponder range active now. New    
+  beacons (and new LEILA ground station) currently experimental.  
+                                                                  
+  New beacon frequencies:                                         
+  CW now F1A on 10489500        Middle Beacon AMSAT PSK 10489750  
+  Experimental Beacon 10490000  currently also F1A CW             
+==============================================================================
+
+==============================================================================
+[1] t=13.2s  FEC  tip='M'  UTC: N/A  RS OK, 0 byte duzeltildi  |  onceki M blogunun ilk yarisi (birebir ayni)
+------------------------------------------------------------------------------
+  M HI de Qatar-OSCAR 100 (DK0SB)                                 
+  2020-02-14: Celebrating 1 year of QO-100                        
+  New bandplan with extended transponder range active now. New    
+  beacons (and new LEILA ground station) currently experimental.  
+==============================================================================
+
+==============================================================================
+[2] t=27.2s  DUZ  tip='N'  UTC: N/A  CRC OK
+------------------------------------------------------------------------------
+  N HI de Qatar-OSCAR 100 (DK0SB)                                 
+  In order to coordinate potential emergency communications       
+  during the actual or any other crisis, the following frequency  
+  will be assigned as international emergency frequency on QO-100 
+  NB Transponder: Downlink: 10489.860 MHz  Uplink: 2400.360 MHz   
+  SSB channel:  max. 2.7kHz bandwidth                             
+  All users on QO-100 are encouraged to monitor                   
+  this frequency, but keep it clear for emergency traffic!        
+==============================================================================
+
+==============================================================================
+[3] t=38.6s  FEC  tip='N'  UTC: N/A  RS OK, 0 byte duzeltildi  |  onceki N blogunun ilk yarisi (birebir ayni)
+------------------------------------------------------------------------------
+  N HI de Qatar-OSCAR 100 (DK0SB)                                 
+  In order to coordinate potential emergency communications       
+  during the actual or any other crisis, the following frequency  
+  will be assigned as international emergency frequency on QO-100 
+==============================================================================
+
+==============================================================================
+[4] t=52.6s  DUZ  tip='K'  UTC: N/A  CRC OK
+------------------------------------------------------------------------------
+  K HI de Qatar-OSCAR 100 (DK0SB)                                 
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+                                                                  
+==============================================================================
+
+==============================================================================
+[5] t=64.0s  FEC  tip='K'  UTC: N/A  RS OK, 0 byte duzeltildi  |  onceki K blogunun ilk yarisi (birebir ayni)
+------------------------------------------------------------------------------
+  K HI de Qatar-OSCAR 100 (DK0SB)                                 
+                                                                  
+                                                                  
+                                                                  
+==============================================================================
+
+==============================================================================
+[6] t=78.0s  DUZ  tip='L'  UTC: N/A  CRC OK
+------------------------------------------------------------------------------
+  L HI de Qatar-OSCAR 100 (DK0SB)                                 
+  Transponder is open for general use since 2019-02-14.           
+  Enjoy the Narrow Band (NB) and Wide Band (WB transponders.      
+  Follow the guidelines and keep transmitter power below beacon.  
+                                                                  
+  For more information visit: http://amsat-dl.org/                
+  QO-100 was brought to you by Es'hailSat, QARS and AMSAT-DL.     
+  Good Luck and Good DX via the first geostationary P4-A satellite
+==============================================================================
+
+==============================================================================
+[7] t=89.4s  FEC  tip='L'  UTC: N/A  RS OK, 0 byte duzeltildi  |  onceki L blogunun ilk yarisi (birebir ayni)
+------------------------------------------------------------------------------
+  L HI de Qatar-OSCAR 100 (DK0SB)                                 
+  Transponder is open for general use since 2019-02-14.           
+  Enjoy the Narrow Band (NB) and Wide Band (WB transponders.      
+  Follow the guidelines and keep transmitter power below beacon.  
+==============================================================================
+
+==============================================================================
+[8] t=103.4s  DUZ  tip='M'  UTC: N/A  CRC OK
+------------------------------------------------------------------------------
+  M HI de Qatar-OSCAR 100 (DK0SB)                                 
+  2020-02-14: Celebrating 1 year of QO-100                        
+  New bandplan with extended transponder range active now. New    
+  beacons (and new LEILA ground station) currently experimental.  
+                                                                  
+  New beacon frequencies:                                         
+  CW now F1A on 10489500        Middle Beacon AMSAT PSK 10489750  
+  Experimental Beacon 10490000  currently also F1A CW             
+==============================================================================
+
+==============================================================================
+[9] t=114.8s  FEC  tip='M'  UTC: N/A  RS OK, 0 byte duzeltildi  |  onceki M blogunun ilk yarisi (birebir ayni)
+------------------------------------------------------------------------------
+  M HI de Qatar-OSCAR 100 (DK0SB)                                 
+  2020-02-14: Celebrating 1 year of QO-100                        
+  New bandplan with extended transponder range active now. New    
+  beacons (and new LEILA ground station) currently experimental.  
+==============================================================================
+
+==============================================================================
+[10] t=128.8s  DUZ  tip='N'  UTC: N/A  CRC OK
+------------------------------------------------------------------------------
+  N HI de Qatar-OSCAR 100 (DK0SB)                                 
+  In order to coordinate potential emergency communications       
+  during the actual or any other crisis, the following frequency  
+  will be assigned as international emergency frequency on QO-100 
+  NB Transponder: Downlink: 10489.860 MHz  Uplink: 2400.360 MHz   
+  SSB channel:  max. 2.7kHz bandwidth                             
+  All users on QO-100 are encouraged to monitor                   
+  this frequency, but keep it clear for emergency traffic!        
+==============================================================================
+
+==============================================================================
+[!] t=139.2s-151.1s arasi (12.0s) okunamadi - yarim/bozuk blok ya da kayit siniri
+==============================================================================
