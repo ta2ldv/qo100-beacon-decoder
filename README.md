@@ -115,7 +115,9 @@ python3 qo100_beacon_decoder.py recording.wav
 ```
 
 That's it. The script finds the carrier, demodulates, deframes, decodes the FEC
-and prints the dump to the console while also writing it under `data/`.
+and prints the dump to the console. It also writes three files under `data/`:
+the text dump, a block heat map, and a **spectrum analysis image** of your
+recording (see sections 4 and 5).
 
 ### 3.4 Example output
 
@@ -164,6 +166,7 @@ counter prevents overwriting):
 |---|---|
 | `data/<name>_00_dokum.txt` | Same chronological dump as the console |
 | `data/<name>_00_block.png` | Heat map: one row per block, colour = byte value (0–255). Constant fields show up as vertical stripes |
+| `data/<name>_00_spectrum.png` | Power spectrum + spectrogram of the recording (the twin-hump signature) |
 
 Heat-map example (from a real recording — 6 plain text blocks on top with their
 striped patterns, decoded FEC blocks below):
@@ -199,10 +202,32 @@ in the spectrum: energy piles up in **two humps** either side of the carrier,
 with a null right at the centre. (That's the secret of the twin trace on the
 waterfall.)
 
-Spectrum from a real recording — the twin humps and the suppressed carrier at
-1500 Hz are clearly visible:
+### The spectrum image the decoder produces
 
-![Spectrum](misc/sample_spectrum.png)
+Every run generates `data/<name>_NN_spectrum.png` from your own recording —
+the same analysis shown below (a real example: [`data/sample_00_spectrum.png`](data/sample_00_spectrum.png)):
+
+![Spectrum](data/sample_00_spectrum.png)
+
+**How to read it.** The top panel is the power spectrum (Welch method):
+
+- The **two humps** either side of 1500 Hz are the biphase BPSK signature —
+  energy concentrated around ±350 Hz of the carrier.
+- The **notch at exactly 1500 Hz** is the suppressed carrier: BPSK carries no
+  power at the carrier frequency itself.
+- The signal occupies roughly **1000–2500 Hz**; beyond that the flat noise
+  floor and the receiver filter roll-off (~2900 Hz) are visible.
+
+The bottom panel is the spectrogram (frequency over time). The texture changes
+mark the block structure: dense striped intervals are data blocks, and the
+transition between an uncoded block and an FEC frame is visible as a subtle
+change in pattern.
+
+**Using it for troubleshooting:** if the humps are not centred on 1500 Hz, your
+dial frequency was off — retune to 10489748.50 kHz. If a hump is cut off at the
+edge, your filter was too narrow — use USB2.7 or wider. If the humps barely
+rise above the noise floor, the signal was weak (expect a low eye-quality
+number and failed CRCs).
 
 ### The demodulation chain in this project
 

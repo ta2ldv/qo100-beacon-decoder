@@ -115,7 +115,9 @@ python3 qo100_beacon_decoder.py kayit.wav
 ```
 
 Hepsi bu. Script sırasıyla taşıyıcıyı bulur, demodüle eder, çerçeveleri ayrıştırır,
-FEC'i çözer ve dökümü hem ekrana basar hem `data/` klasörüne yazar.
+FEC'i çözer ve dökümü ekrana basar. Ayrıca `data/` altına üç dosya yazar:
+metin dökümü, blok ısı haritası ve kaydınızın **spektrum analizi görseli**
+(bkz. bölüm 4 ve 5).
 
 ### 3.4 Örnek çıktı
 
@@ -163,6 +165,7 @@ Her koşu, girdi dosyasının adıyla `data/` altına iki dosya üretir
 |---|---|
 | `data/<ad>_00_dokum.txt` | Ekrandaki kronolojik dökümün aynısı |
 | `data/<ad>_00_block.png` | Isı haritası: her satır bir blok, renk = byte değeri (0–255). Sabit alanlar dikey şerit olarak görünür |
+| `data/<ad>_00_spectrum.png` | Kaydın güç spektrumu + spektrogramı (çift tümsek imzası) |
 
 Isı haritası örneği (gerçek kayıttan — üstte 6 düz metin bloğu şeritli desenleriyle,
 altta çözülmüş FEC blokları):
@@ -196,10 +199,31 @@ Bifaz her bit süresinde en az bir geçiş garantiler; alıcı saatini her an ta
 Yan etkisi spektrumda görülür: enerji taşıyıcının iki yanında **iki tümsek**
 halinde toplanır, tam merkezde çukur oluşur. (Waterfall'daki çift çizginin sırrı.)
 
-Gerçek kayıttan spektrum — çift tümsek ve 1500 Hz'deki bastırılmış taşıyıcı
-açıkça görünüyor:
+### Decoder'ın ürettiği spektrum görseli
 
-![Spektrum](misc/sample_spectrum.png)
+Her koşu, sizin kaydınızdan `data/<ad>_NN_spectrum.png` üretir — aşağıdaki
+analizin aynısı (gerçek örnek: [`data/sample_00_spectrum.png`](data/sample_00_spectrum.png)):
+
+![Spektrum](data/sample_00_spectrum.png)
+
+**Nasıl okunur?** Üst panel güç spektrumu (Welch yöntemi):
+
+- 1500 Hz'in iki yanındaki **iki tümsek**, bifaz BPSK'nın imzası — enerji
+  taşıyıcının ±350 Hz çevresinde toplanır.
+- **Tam 1500 Hz'deki çukur**, bastırılmış taşıyıcı: BPSK, taşıyıcı frekansın
+  kendisinde güç taşımaz.
+- Sinyal kabaca **1000–2500 Hz** aralığını kaplar; ötesinde düz gürültü tabanı
+  ve alıcı filtresinin kenarı (~2900 Hz) görünür.
+
+Alt panel spektrogram (zamana karşı frekans). Doku değişimleri blok yapısını
+gösterir: yoğun çizgili aralıklar veri bloklarıdır; kodsuz blok ile FEC frame
+arasındaki geçiş, desendeki ince değişimden seçilebilir.
+
+**Sorun gidermede kullanımı:** tümsekler 1500 Hz'e ortalanmamışsa dial frekansın
+kaymış demektir — 10489748.50 kHz'e yeniden ayarlan. Tümseklerden biri kenardan
+kesilmişse filtren dardı — USB2.7 veya daha genişini kullan. Tümsekler gürültü
+tabanından zar zor yükseliyorsa sinyal zayıftı (düşük göz kalitesi ve CRC
+hataları beklenir).
 
 ### Bu projedeki demodülasyon zinciri
 

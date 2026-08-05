@@ -85,7 +85,8 @@ FRAME_BITS = 32 + BLOCK_BYTES * 8
 
 # ---------------------------------------------------------------- DSP katmani
 def wav_to_chips(path):
-    """WAV -> 800 chip/s sert karar dizisi (bifaz chipleri)."""
+    """WAV -> 800 chip/s sert karar dizisi (bifaz chipleri).
+    Ayrica (fs, x) dondurur ki spektrum gorseli cizilebilsin."""
     fs, x = wavfile.read(path)
     if x.ndim > 1:
         x = x[:, 0]
@@ -122,7 +123,7 @@ def wav_to_chips(path):
     soft = Im[idx]
     snr_eye = np.mean(np.abs(soft)) / np.std(np.abs(soft))
     print(f"chip sayisi: {len(soft)}, goz kalitesi: {snr_eye:.2f} (>2 iyi)")
-    return (soft > 0).astype(np.uint8)
+    return (soft > 0).astype(np.uint8), fs, x
 
 
 def chips_to_bits(chips, align):
@@ -303,6 +304,40 @@ def report(blocks, fec, total_dur):
             print("=" * 78)
 
 
+def plot_spectrum(fs, x, png_path):
+    """Kaydin guc spektrumu + spektrogrami: bifaz BPSK'nin cift tumsegi ve
+    1500 Hz'deki bastirilmis tasiyici gorunur. README'deki gorselin aynisi."""
+    try:
+        import matplotlib
+        matplotlib.use('Agg')
+        import matplotlib.pyplot as plt
+    except ImportError:
+        print("matplotlib yok — spektrum gorseli atlandi")
+        return
+    fig, axes = plt.subplots(2, 1, figsize=(12, 7))
+    f, Pxx = signal.welch(x, fs, nperseg=4096)
+    axes[0].semilogy(f, Pxx, lw=0.8)
+    axes[0].set_xlim(0, 4000)
+    axes[0].set_xlabel('Audio frequency (Hz)')
+    axes[0].set_ylabel('Power')
+    axes[0].set_title('QO-100 PSK beacon — power spectrum: twin humps of '
+                      'biphase BPSK, null at 1500 Hz carrier')
+    axes[0].grid(True, alpha=0.3)
+    axes[0].annotate('carrier (suppressed)', xy=(1500, 2e-7), xytext=(2300, 3e-6),
+                     arrowprops=dict(arrowstyle='->'), fontsize=9)
+    seg = x[:int(min(40, len(x) / fs) * fs)]
+    ff, tt, Sxx = signal.spectrogram(seg, fs, nperseg=1024, noverlap=768)
+    axes[1].pcolormesh(tt, ff, 10 * np.log10(Sxx + 1e-12),
+                       shading='auto', cmap='viridis')
+    axes[1].set_ylim(0, 4000)
+    axes[1].set_xlabel('Time (s)')
+    axes[1].set_ylabel('Hz')
+    axes[1].set_title('Spectrogram (first 40 s)')
+    plt.tight_layout()
+    plt.savefig(png_path, dpi=100)
+    print(f"kaydedildi: {png_path}")
+
+
 def visualize(blocks, fec, png_path):
     """Isi haritasi: satir=blok, renk=byte degeri. Sabit alanlar dikey serit."""
     try:
@@ -337,7 +372,7 @@ def visualize(blocks, fec, png_path):
 
 
 def main(path):
-    chips = wav_to_chips(path)
+    chips, fs, x = wav_to_chips(path)
     per_align = [(a, find_blocks(chips_to_bits(chips, a))) for a in (0, 1)]
     align, blocks = max(per_align, key=lambda t: len(t[1]))
     bits = chips_to_bits(chips, align)
@@ -355,11 +390,12 @@ def main(path):
     # NN her kosuda artar, var olan dosyalarin uzerine yazilmaz
     base = os.path.splitext(os.path.basename(path))[0]
     nn = 0
-    while os.path.exists(os.path.join('data', f'{base}_{nn:02d}_dokum.txt')) or \
-          os.path.exists(os.path.join('data', f'{base}_{nn:02d}_block.png')):
+    while any(os.path.exists(os.path.join('data', f'{base}_{nn:02d}_{s}'))
+              for s in ('dokum.txt', 'block.png', 'spectrum.png')):
         nn += 1
     txt_path = os.path.join('data', f'{base}_{nn:02d}_dokum.txt')
     png_path = os.path.join('data', f'{base}_{nn:02d}_block.png')
+    spec_path = os.path.join('data', f'{base}_{nn:02d}_spectrum.png')
     # dokumu hem ekrana bas hem dosyaya yaz
     buf = io.StringIO()
     with contextlib.redirect_stdout(buf):
@@ -369,6 +405,7 @@ def main(path):
     with open(txt_path, 'w') as fh:
         fh.write(text)
     print(f"kaydedildi: {txt_path}")
+    plot_spectrum(fs, x, spec_path)
     visualize(blocks, fec, png_path)
 
 
