@@ -98,7 +98,9 @@ Open the page and configure:
 | Audio AGC | Auto | Works fine |
 | Volume | High (no clipping) | For recording SNR |
 
-A screenshot of the correct configuration: [`misc/settings_websdr.png`](misc/settings_websdr.png)
+A screenshot of the correct configuration:
+
+![WebSDR settings](misc/settings_websdr.png)
 
 Verify on the waterfall that the beacon's twin-humped trace sits **inside** the
 yellow filter shape. Then:
