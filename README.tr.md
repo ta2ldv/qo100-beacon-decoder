@@ -98,7 +98,7 @@ Siteye girin ve şu ayarları yapın:
 | Audio AGC | Auto | Sorunsuz |
 | Volume | Yüksek (kırpılmadan) | Kayıt sinyal/gürültü oranı için |
 
-Doğru yapılandırmanın ekran görüntüsü: [`misc/settings.png`](misc/settings.png)
+Doğru yapılandırmanın ekran görüntüsü: [`misc/settings_websdr.png`](misc/settings_websdr.png)
 
 Waterfall'da beacon'ın çift tümsekli izinin sarı filtre şeklinin **içinde**
 olduğunu doğrulayın. Sonra:
